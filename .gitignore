@@ -21,3 +21,7 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
+
+# Qt project files
+*.pro
+*.pro.user
