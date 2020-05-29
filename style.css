@@ -2,6 +2,10 @@ QPushButton {
     max-width: 100px;
 }
 
+valueButton {
+    max-width: 30px;
+}
+
 #mcu_rect {
     min-width: 300px;
     max-width: 300px;

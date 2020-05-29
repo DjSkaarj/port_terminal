@@ -60,7 +60,7 @@ class cfgBox: public QComboBox
     Q_OBJECT
 
 public:
-    cfgBox(QWidget* parent = nullptr);
+    cfgBox(QWidget* parent = nullptr) : QComboBox(parent) {}
     ~cfgBox() {}
 
 public slots:
@@ -72,10 +72,17 @@ class valueButton: public QPushButton
     Q_OBJECT
 
 public:
-    valueButton(QWidget* parent = nullptr);
+    valueButton(QWidget* parent = nullptr) : QPushButton(parent) {}
     ~valueButton() {}
 
+    pt_port *port() const;
+    void setPort(pt_port *port);
 
+public slots:
+    void updateText(int value);
+
+private:
+    pt_port* _port;
 };
 
 #endif // MAINWINDOW_H

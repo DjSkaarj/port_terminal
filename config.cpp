@@ -24,7 +24,7 @@ bool config::load(const QString &path)
             align = 0;
         else if(cmd == "right")
             align = 1;
-        else if(cmd == "p")
+        else if(cmd == "p" || cmd == "r")
         {
             pt_port *buff = new pt_port();
             QString bname;
@@ -36,6 +36,9 @@ bool config::load(const QString &path)
             buff->setName(bname);
             buff->setNum(bnum);
             buff->setAlign(align);
+
+            if(cmd == "r")
+                buff->setService(true);
 
             ports.push_back(buff);
         }
