@@ -25,3 +25,4 @@ $RECYCLE.BIN/
 # Qt project files
 *.pro
 *.pro.user
+*.autosave
