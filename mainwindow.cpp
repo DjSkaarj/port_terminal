@@ -47,19 +47,29 @@ void MainWindow::loadCfg(int num_config)
     for(auto &v : _cfg->ports)
     {
         QHBoxLayout* port_layout = new QHBoxLayout;
-        QLabel* port_name = new QLabel(v->name());
-        ioMode* mode_list = new ioMode;
-        mode_list->setPort(v);
-        QToolButton* settings_button = new QToolButton;
-
-        port_layout->addWidget(port_name);
-        port_layout->addWidget(settings_button);
-        port_layout->addWidget(mode_list);
 
         if(v->align())
             ui->Right_ports->addLayout(port_layout);
         else
             ui->Left_ports->addLayout(port_layout);
+
+        QLabel* port_name = new QLabel(v->name());
+        port_layout->addWidget(port_name);
+
+        if(v->service())
+            continue;
+
+        QToolButton* settings_button = new QToolButton;
+
+        ioMode* mode_list = new ioMode;
+        mode_list->setPort(v);
+
+        valueButton* value_button = new valueButton;
+        value_button->setPort(v);
+
+        port_layout->addWidget(settings_button);
+        port_layout->addWidget(mode_list);
+        port_layout->addWidget(value_button);
     }
 }
 
@@ -137,9 +147,6 @@ void ioMode::setPort(pt_port *port)
     }
 }
 
-cfgBox::cfgBox(QWidget *parent) : QComboBox(parent)
-{}
-
 void cfgBox::updateList(const std::vector<std::pair<QString, QString>>* list)
 {
     clear();
@@ -147,5 +154,26 @@ void cfgBox::updateList(const std::vector<std::pair<QString, QString>>* list)
     for(const auto &v : *list)
         addItem(v.second, v.second);
 
-    setCurrentIndex(-1);
+    setCurrentIndex(0);
+}
+
+pt_port *valueButton::port() const
+{
+    return _port;
+}
+
+void valueButton::setPort(pt_port *port)
+{
+    if(_port != port)
+    {
+        _port = port;
+        setText(QString::number(port->value()));
+        connect(this, SIGNAL(clicked()), port, SLOT(switchValue()));
+        connect(port, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
+    }
+}
+
+void valueButton::updateText(int value)
+{
+    setText(QString::number(value));
 }

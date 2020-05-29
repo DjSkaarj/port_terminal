@@ -1,7 +1,5 @@
 #include "config.h"
 
-config default_cfg;
-
 bool config::load(const QString &path)
 {
     bool align = 0;
@@ -38,6 +36,22 @@ bool config::load(const QString &path)
             buff->setName(bname);
             buff->setNum(bnum);
             buff->setAlign(align);
+
+            ports.push_back(buff);
+        }
+        else if(cmd == "r")
+        {
+            pt_port *buff = new pt_port();
+            QString bname;
+            int bnum;
+
+            ts >> bnum;
+            ts >> bname;
+
+            buff->setName(bname);
+            buff->setNum(bnum);
+            buff->setAlign(align);
+            buff->setService(true);
 
             ports.push_back(buff);
         }
