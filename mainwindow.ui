@@ -32,7 +32,15 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,2,0">
+   <property name="font">
+    <font>
+     <kerning>false</kerning>
+    </font>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,2,0">
+    <property name="spacing">
+     <number>6</number>
+    </property>
     <item>
      <layout class="QHBoxLayout" name="Top">
       <property name="topMargin">
@@ -42,18 +50,35 @@
        <number>20</number>
       </property>
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
         <item>
-         <property name="text">
-          <string>&lt;none&gt;</string>
-         </property>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Select Com Port</string>
+          </property>
+         </widget>
         </item>
         <item>
-         <property name="text">
-          <string>COM0</string>
-         </property>
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>&lt;none&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>COM0</string>
+           </property>
+          </item>
+         </widget>
         </item>
-       </widget>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2"/>
       </item>
       <item>
        <widget class="QToolButton" name="toolButton">
@@ -114,7 +139,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

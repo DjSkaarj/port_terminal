@@ -31,8 +31,6 @@ void MainWindow::loadCfg(int num_config)
     if(num_config == -1 || num_config == 0)
         return;
 
-    conlog->info(QString::number(num_config));
-
     config *buff = new config;
     if(buff->load(config_list[num_config - 1].first))
     {

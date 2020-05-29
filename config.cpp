@@ -1,7 +1,5 @@
 #include "config.h"
 
-config default_cfg;
-
 bool config::load(const QString &path)
 {
     bool align = 0;
