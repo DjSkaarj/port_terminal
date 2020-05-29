@@ -1,0 +1,21 @@
+QPushButton {
+    max-width: 100px;
+}
+
+#mcu_rect {
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 350px;
+    background-color: rgb(240,240,240);
+    border: 1px solid rgb(45,55,45);
+    border-radius:25px;
+    qproperty-alignment: AlignCenter;
+    font-size: 25px;
+}
+
+#console {
+    background-color: black;
+    color: white;
+    font-size: 15px;
+}
+

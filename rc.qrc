@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.css</file>
+        <file>ports/atmega328.cfg</file>
+        <file>ports/testconfig.cfg</file>
+    </qresource>
+</RCC>
