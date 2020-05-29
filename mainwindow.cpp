@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget* parent)
     conlog->setLogFile("log.txt");
 
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
+    connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 }
 
 MainWindow::~MainWindow()
@@ -23,12 +24,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::loadcfg(int num_config)
+void MainWindow::loadCfg(int num_config)
 {
     clearPorts();
 
     if(num_config == -1 || num_config == 0)
         return;
+
+    conlog->info(QString::number(num_config));
 
     config *buff = new config;
     if(buff->load(config_list[num_config - 1].first))
@@ -60,7 +63,7 @@ void MainWindow::loadcfg(int num_config)
     }
 }
 
-void MainWindow::loadcfgfiles(const QString &directory)
+void MainWindow::loadCfgFiles(const QString &directory)
 {
     QDir dir(directory);
     if (!dir.exists())
@@ -75,6 +78,9 @@ void MainWindow::loadcfgfiles(const QString &directory)
 
     for(QFileInfo &i : list)
     {
+        if(i.suffix() != "cfg")
+            continue;
+
         QFile cur(i.filePath());
         if (!cur.open(QIODevice::ReadOnly | QIODevice::Text))
             continue;
@@ -83,11 +89,9 @@ void MainWindow::loadcfgfiles(const QString &directory)
         QString mcu_name;
         tmp >> mcu_name;
 
-        if(i.suffix() == "cfg")
-            config_list.push_back(std::pair<QString, QString>(i.filePath(), mcu_name));
+        config_list.push_back(std::pair<QString, QString>(i.filePath(), mcu_name));
     }
 
-    connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadcfg(int)));
     emit cfgChanged(&config_list);
 }
 
@@ -134,8 +138,7 @@ void ioMode::setPort(pt_port *port)
 }
 
 cfgBox::cfgBox(QWidget *parent) : QComboBox(parent)
-{
-}
+{}
 
 void cfgBox::updateList(const std::vector<std::pair<QString, QString>>* list)
 {

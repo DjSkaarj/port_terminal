@@ -24,10 +24,10 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-    void loadcfgfiles(const QString &directory);
+    void loadCfgFiles(const QString &directory);
 
 public slots:
-    void loadcfg(int);
+    void loadCfg(int);
 
 signals:
     void cfgChanged(const std::vector<std::pair<QString, QString>>*);
