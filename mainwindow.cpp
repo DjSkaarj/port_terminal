@@ -8,6 +8,8 @@ QString port_modes[NUM_MODES] = {
     "input"     // 1
 };
 
+const QString PT_VERSION = "1.0";
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow),
@@ -17,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent)
     conlog->setMsgbox(ui->console);
     conlog->setLogFile("log.txt");
 
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 
@@ -73,6 +76,12 @@ void MainWindow::loadCfg(int num_config)
         port_layout->addWidget(mode_list);
         port_layout->addWidget(value_button);
     }
+}
+
+void MainWindow::about()
+{
+    QMessageBox::about(this, "About Port Terminal",
+             "Port Terminval v." + PT_VERSION + ". Powred by Qt " + QT_VERSION_STR + "\n © Demichev S., Gerasimenko E.");
 }
 
 void MainWindow::loadCfgFiles(const QString &directory)
@@ -194,7 +203,6 @@ void valueButton::setPort(pt_port *port)
     {
         _port = port;
         setText(QString::number(port->value()));
-        connect(this, SIGNAL(clicked()), port, SLOT(switchValue()));
         connect(port, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
     }
 }

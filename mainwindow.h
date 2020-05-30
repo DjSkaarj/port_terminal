@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QComboBox>
+#include <QMessageBox>
 #include <QtAlgorithms>
 #include <QDir>
 #include <utility>
@@ -30,6 +31,7 @@ public:
 
 public slots:
     void loadCfg(int);
+    void about();
 
 signals:
     void cfgChanged(const std::vector<std::pair<QString, QString>>*);
