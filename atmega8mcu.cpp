@@ -18,11 +18,11 @@ bool Atmega8MCU::connectToDevice(const QString &serialPortName) {
         return 1;
     }
 
-    conlog->appendMessage("Device connected");
+    conlog->info("Device connected");
 
     if (firstConnectFlag) {
         firstConnectFlag = false;
-        connect(serialPort, SIGNAL(QSerialPort::ReadRead()), this, SLOT(handleDataFromDevice()));
+        connect(serialPort, SIGNAL(readyRead()), this, SLOT(getDataFromDevice()));
     }
 
     emit Controller::controllerConnected();
@@ -32,7 +32,7 @@ bool Atmega8MCU::connectToDevice(const QString &serialPortName) {
 bool Atmega8MCU::disconnect(){
     if (serialPort->isOpen()) {
         serialPort->close();
-        conlog->appendMessage("Device disconnected");
+        conlog->info("Device disconnected");
 
         emit Controller::controllerDisconnected();
     }
@@ -78,6 +78,7 @@ void Atmega8MCU::sendDataToMCU(QByteArray &data){
 }
 
 void Atmega8MCU::getDataFromDevice(){
+    conlog->info("getdatafromDevice");
     if(!serialPort->canReadLine()) {
         conlog->error("Not enough incoming data");
         return;
@@ -85,6 +86,7 @@ void Atmega8MCU::getDataFromDevice(){
 
     QByteArray response = serialPort->readLine();
     responseHandler(response);
+    conlog->info("Response"+response);
 
 }
 //-----------------------------------------------------------------------------------

@@ -149,7 +149,7 @@ void MainWindow::connectMCU() {
     }
 }
 
-void MainWindow::disconnectMSU(){
+void MainWindow::disconnectMCU(){
     if(mcu->isConnecedToPort())
         mcu->disconnect();
 }

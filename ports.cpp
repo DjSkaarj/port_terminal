@@ -70,6 +70,7 @@ void pt_port::changePortMode(int mode) {
     switch (mode) {
         case 0:
             this->_mcu->setPinMode(this, Controller::OUTPUT);
+
         break;
         case 1:
             this->_mcu->setPinMode(this, Controller::INPUT);
