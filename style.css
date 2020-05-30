@@ -16,6 +16,7 @@ valueButton {
     border-radius:25px;
     qproperty-alignment: AlignCenter;
     font-size: 25px;
+    margin: 0 20px;
 }
 
 #container_widget {
@@ -23,6 +24,7 @@ valueButton {
 }
 
 #console {
+    margin-top: 15px;
     background-color: black;
     color: white;
     font-size: 15px;

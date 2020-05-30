@@ -27,7 +27,7 @@ public:
     MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-    void loadCfgFiles(const QString &directory);
+    void loadCfgDirectory(const QString &directory);
 
 public slots:
     void loadCfg(int);

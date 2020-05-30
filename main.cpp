@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     conlog = new logger;
 
     MainWindow w;
-    w.loadCfgFiles(":/ports");
+    w.loadCfgDirectory(":/ports");
     w.show();
     return a.exec();
 }

@@ -9,7 +9,7 @@ QString port_modes[NUM_MODES] = {
     "input"     // 1
 };
 
-const QString PT_VERSION = "1.0";
+const QString PT_VERSION = "0.1a";
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget* parent)
     conlog->setLogFile("log.txt");
 
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+    connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(ui->actionAbout_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 
@@ -97,7 +100,7 @@ void MainWindow::loadCfg(int num_config)
 void MainWindow::about()
 {
     QMessageBox::about(this, "About Port Terminal",
-                       "<b>Port Terminal v." + PT_VERSION + "</b><br>Powered by Qt " + QT_VERSION_STR + "<br>© Demichev S., Gerasimenko E.");
+                       "<b>Port Terminal " + PT_VERSION + "</b><br>Powered by Qt " + QT_VERSION_STR + "<br>© Demichev S., Gerasimenko E.");
 }
 
 void MainWindow::enableTerminal()
@@ -118,7 +121,7 @@ void MainWindow::disableTerminal()
     ui->disconnectMCU->setEnabled(false);
 }
 
-void MainWindow::loadCfgFiles(const QString &directory)
+void MainWindow::loadCfgDirectory(const QString &directory)
 {
     QDir dir(directory);
     if (!dir.exists())
