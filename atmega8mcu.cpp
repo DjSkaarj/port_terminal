@@ -39,7 +39,7 @@ bool Atmega8MCU::disconnect(){
 void Atmega8MCU::setPinValue(pt_port* pin, Mode mode, Value newValue){
     QByteArray request;
     switch(mode){
-        case OUTPUT:
+        case Controller::OUTPUT:
             request.append(GPIO);
             request.append(SET);
             request.append(VALUE);
@@ -55,7 +55,7 @@ void Atmega8MCU::setPinValue(pt_port* pin, Mode mode, Value newValue){
             pushTask(Controller::SET_VALUE, pin, mode, newValue);
         break;
 
-        case INPUT:
+        case Controller::INPUT:
             // nothing for now
         break;
     }

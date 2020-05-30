@@ -20,4 +20,7 @@
 #define HIGH_STATE '\xf0'
 #define LOW_STATE '\x0f'
 
+#define OUTPUT 'O'
+#define INPUT 'i'
+
 #endif /* COMMANDS_H_ */
