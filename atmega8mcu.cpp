@@ -94,7 +94,7 @@ void Atmega8MCU::responseHandler(QByteArray &data){
        break;
 
        case ERROR:
-
+            redoTask(task);
        break;
        default:
            conlog->error("Wrong response from MCU:"+data);

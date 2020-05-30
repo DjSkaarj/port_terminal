@@ -178,7 +178,7 @@ void ioMode::setPort(pt_port *port)
     if(_port != port)
     {
         _port = port;
-        connect(this, SIGNAL(currentIndexChanged(int)), port, SLOT(setMode(int)));
+        connect(this, SIGNAL(currentIndexChanged(int)), port, SLOT(changePortMode(int)));
     }
 }
 
@@ -203,7 +203,12 @@ void valueButton::setPort(pt_port *port)
     {
         _port = port;
         setText(QString::number(port->value()));
+<<<<<<< HEAD
         connect(port, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
+=======
+        connect(this, SIGNAL(clicked()), port, SLOT(changePortValue()));
+        connect(port, SIGNAL(portValueChangeConfirmed(int)), this, SLOT(updateText(int)));
+>>>>>>> origin/master
     }
 }
 
