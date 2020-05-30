@@ -44,6 +44,9 @@ protected:
     virtual void sendDataToMCU(QByteArray &data) = 0;
     virtual void responseHandler(QByteArray &data) = 0;
 
+signals:
+    void controllerConnected();
+    void controllerDisconnected();
 
 protected slots:
     virtual void getDataFromDevice() = 0;

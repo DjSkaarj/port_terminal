@@ -24,6 +24,8 @@ bool Atmega8MCU::connectToDevice(QString serialPortName) {
         firstConnectFlag = false;
         connect(serialPort, SIGNAL(QSerialPort::ReadRead()), this, SLOT(handleDataFromDevice()));
     }
+
+    emit Controller::controllerConnected();
     return 0;
 }
 
@@ -31,7 +33,10 @@ bool Atmega8MCU::disconnect(){
     if (serialPort->isOpen()) {
         serialPort->close();
         conlog->appendMessage("Device disconnected");
+
+        emit Controller::controllerDisconnected();
     }
+
     return 0;
 }
 
