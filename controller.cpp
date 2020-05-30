@@ -25,13 +25,26 @@ void Controller::terminateTask(Task *task){
         case Controller::SET_VALUE:
             task->port->setValue(task->valueToSet);
         break;
-            task->port->setMode(task->modeToSet);
+
         case Controller::SET_MODE:
+            task->port->setMode(task->modeToSet);
         break;
+    default: conlog->error("Error terminate task");
     }
 }
 
 void Controller::redoTask(Task *task){
+    switch (task->typeOfTask) {
+        case Controller::SET_VALUE:
+            setPinValue(task->port, task->modeToSet, task->valueToSet);
+            taskQueue.enqueue(task);
+        break;
 
+        case Controller::SET_MODE:
+            setPinMode(task->port, task->modeToSet);
+            taskQueue.enqueue(task);
+        break;
 
+    default: conlog->error("Error task redoing");
+    }
 }

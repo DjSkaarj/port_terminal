@@ -67,11 +67,22 @@ void pt_port::switchValue()
 */
 
 void pt_port::changePortMode(int mode) {
-
+    switch (mode) {
+        case 0:
+            this->_mcu->setPinMode(this, Controller::OUTPUT);
+        break;
+        case 1:
+            this->_mcu->setPinMode(this, Controller::INPUT);
+        break;
+    }
 }
 
 void pt_port::changePortValue() {
-
+    switch (this->_mode) {
+        case 0:
+            this->_mcu->setPinValue(this, Controller::OUTPUT, (Controller::Value)(this->_value ? 0:1 ));
+        break;
+    }
 }
 
 //---------------------------------------------------------------------------------
