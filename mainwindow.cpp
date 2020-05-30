@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget* parent)
     , ui(new Ui::MainWindow),
       mcu(nullptr)
 {
+
     ui->setupUi(this);
     conlog->setMsgbox(ui->console);
     conlog->setLogFile("log.txt");
@@ -22,6 +23,11 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
+
+    //connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableInterface()));
+    //connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableInterface()));
+
+    ui->container_widget->setEnabled(false);
 
     fillPortsInfo();
 }
@@ -64,12 +70,12 @@ void MainWindow::loadCfg(int num_config)
         if(v->service())
             continue;
 
-        QToolButton* settings_button = new QToolButton;
+        QToolButton* settings_button = new QToolButton();
 
-        ioMode* mode_list = new ioMode;
+        ioMode* mode_list = new ioMode();
         mode_list->setPort(v);
 
-        valueButton* value_button = new valueButton;
+        valueButton* value_button = new valueButton();
         value_button->setPort(v);
 
         port_layout->addWidget(settings_button);
@@ -81,7 +87,17 @@ void MainWindow::loadCfg(int num_config)
 void MainWindow::about()
 {
     QMessageBox::about(this, "About Port Terminal",
-             "Port Terminval v." + PT_VERSION + ". Powred by Qt " + QT_VERSION_STR + "\n © Demichev S., Gerasimenko E.");
+                       "Port Terminval v." + PT_VERSION + ". Powred by Qt " + QT_VERSION_STR + "\n © Demichev S., Gerasimenko E.");
+}
+
+void MainWindow::enableInterface()
+{
+    ui->container_widget->setEnabled(true);
+}
+
+void MainWindow::disableInterface()
+{
+    ui->container_widget->setEnabled(false);
 }
 
 void MainWindow::loadCfgFiles(const QString &directory)
@@ -203,12 +219,8 @@ void valueButton::setPort(pt_port *port)
     {
         _port = port;
         setText(QString::number(port->value()));
-<<<<<<< HEAD
-        connect(port, SIGNAL(valueChanged(int)), this, SLOT(updateText(int)));
-=======
         connect(this, SIGNAL(clicked()), port, SLOT(changePortValue()));
         connect(port, SIGNAL(portValueChangeConfirmed(int)), this, SLOT(updateText(int)));
->>>>>>> origin/master
     }
 }
 

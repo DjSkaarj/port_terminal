@@ -32,6 +32,8 @@ public:
 public slots:
     void loadCfg(int);
     void about();
+    void enableInterface();
+    void disableInterface();
 
 signals:
     void cfgChanged(const std::vector<std::pair<QString, QString>>*);
