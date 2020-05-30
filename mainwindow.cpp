@@ -24,9 +24,12 @@ MainWindow::MainWindow(QWidget* parent)
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 
+    /* расскоментируй когда сделаешь подгрузку mcu */
     //connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableInterface()));
     //connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableInterface()));
 
+    ui->Left_ports->setAlignment(Qt::AlignRight);
+    ui->Right_ports->setAlignment(Qt::AlignLeft);
     ui->container_widget->setEnabled(false);
 
     fillPortsInfo();
@@ -87,7 +90,7 @@ void MainWindow::loadCfg(int num_config)
 void MainWindow::about()
 {
     QMessageBox::about(this, "About Port Terminal",
-                       "Port Terminval v." + PT_VERSION + ". Powred by Qt " + QT_VERSION_STR + "\n © Demichev S., Gerasimenko E.");
+                       "<b>Port Terminal v." + PT_VERSION + "</b><br>Powered by Qt " + QT_VERSION_STR + "<br>© Demichev S., Gerasimenko E.");
 }
 
 void MainWindow::enableInterface()
