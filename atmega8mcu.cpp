@@ -1,9 +1,7 @@
 #include "atmega8mcu.h"
+#include "commands.h"
 
 #include <QSerialPort>
-
-Controller::Controller(QObject *parent, QString name)
-    :controllerName(name), serialPort(new QSerialPort(this)) {}
 
 Atmega8MCU::Atmega8MCU(QObject *parent, QString name)
     : Controller(parent, name), firstConnectFlag(true) {}
@@ -34,17 +32,44 @@ bool Atmega8MCU::disconnect(){
         serialPort->close();
         conlog->appendMessage("Device disconnected");
     }
-    return 0;}
-
-// GPIO methods
-void Atmega8MCU::setPinValue(char portLetter, int pin,  Value value){
-
-
+    return 0;
 }
 
-void Atmega8MCU::setPinMode(char portLetter, int pin, Mode mode){}
+// GPIO methods------------------------------------------------------------------------
+void Atmega8MCU::setPinValue(pt_port* pin, Mode mode, Value newValue){
+    QByteArray request;
+    switch(mode){
+        case OUTPUT:
+            request.append(GPIO);
+            request.append(SET);
+            request.append(VALUE);
+            request.append(pin->getPortLetter());
+            if (newValue == HIGH) {
+                request.append(HIGH_STATE);
+                request.append((1 << pin->getPinNumber()));
+            }
+            else {
+                request.append(LOW_STATE);
+                request.append(~(1 << pin->getPinNumber()));
+            }
+            pushTask(Controller::SET_VALUE, pin, mode, newValue);
+        break;
+
+        case INPUT:
+            // nothing for now
+        break;
+    }
+    if(request.length() == 0)
+        return;
+    else sendDataToMCU(request);
+}
+
+void Atmega8MCU::setPinMode(pt_port* pin, Mode mode){}
+
+//--------------------------------------------------------------------------------
 
 void Atmega8MCU::sendDataToMCU(QByteArray &data){
+    conlog->info("Send request to MCU:" + data);
     serialPort->write(data);
 }
 
@@ -53,9 +78,26 @@ void Atmega8MCU::getDataFromDevice(){
         conlog->error("Not enough incoming data");
         return;
     }
-    const QByteArray data = serialPort->readLine();
 
-
-
+    QByteArray response = serialPort->readLine();
+    responseHandler(response);
 
 }
+//-----------------------------------------------------------------------------------
+
+void Atmega8MCU::responseHandler(QByteArray &data){
+   Task *task = taskQueue.dequeue();
+   switch (data[0]) {
+       case ACK:
+            terminateTask(task);
+            delete task;
+       break;
+
+       case ERROR:
+
+       break;
+       default:
+           conlog->error("Wrong response from MCU:"+data);
+   }
+}
+

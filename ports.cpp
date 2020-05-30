@@ -42,7 +42,7 @@ void pt_port::setValue(int value)
     {
         _value = value;
         conlog->info(QStringLiteral("Port %1 value: %2").arg(_name).arg(_value));
-        emit valueChanged(value);
+        emit portValueChangeConfirmed(value);
     }
 }
 
@@ -53,16 +53,18 @@ void pt_port::setMode(int mode)
         _mode = mode;
         conlog->info(QStringLiteral("Port %1 mode: %2").arg(_name).arg(_mode));
 
-        emit modeChanged(mode);
+        emit portModeChangeConfirmed(mode);
     }
 }
 
+/*
 void pt_port::switchValue()
 {
     _value = !_value;
     conlog->info(QStringLiteral("Port %1 value: %2").arg(_name).arg(_value));
     emit valueChanged(_value);
 }
+*/
 
 void pt_port::changePortMode(int mode) {
 
@@ -87,4 +89,12 @@ void pt_port::setService(bool service)
 bool pt_port::mode() const
 {
     return _mode;
+}
+
+QChar pt_port::getPortLetter(){
+    return _name[1];
+}
+
+int pt_port::getPinNumber(){
+    return _name[2].digitValue();
 }

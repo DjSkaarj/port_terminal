@@ -18,25 +18,31 @@ public:
     //possible modes and values of pins
     enum Value {LOW = 0, HIGH = 1};
     enum Mode {OUTPUT = 0, INPUT = 1};
+    enum Type {SET_VALUE = 0, SET_MODE = 1};
 
     //GPIO methods
-    virtual void setPinValue(char portLetter, int pin,  Value value) = 0;
-    virtual void setPinMode(char portLetter, int pin, Mode mode) = 0;
+    virtual void setPinValue(class pt_port* pin, Mode mode, Value value) = 0; //Mode mode, Value value, char portLetter, int pin
+    virtual void setPinMode(class pt_port* pin, Mode mode) = 0;
 
 protected:
     QString controllerName;
     QSerialPort *serialPort;
     struct Task {
-        class pt_port *pin;
+        class pt_port *port;
         Mode modeToSet;
         Value valueToSet;
-        bool modeOrValue;  // 0-value, 1-mode
+        Type typeOfTask;
     };
 
     QQueue<Task*> taskQueue;
 
+    virtual void pushTask(Type type, pt_port* &pin, Mode mode, Value value);
+    virtual Task* pullTask();
+    virtual void redoTask(Task *task);
+    virtual void terminateTask(Task *task);
+
     virtual void sendDataToMCU(QByteArray &data) = 0;
-    virtual void taskHandler() = 0;
+    virtual void responseHandler(QByteArray &data) = 0;
 
 
 protected slots:

@@ -32,26 +32,29 @@ public:
     bool service() const;
     void setService(bool service);
 
+    QChar getPortLetter();
+    int getPinNumber();
+
+    // for Controller to call
+    void setMode(int mode);
+    void setValue(int value);
+
 public slots:
 
-    // ?
-    void setMode(int mode);
-    void setValue(int value);    //????
-    //
-
+    // for gui to call
     void changePortMode(int mode); // for ioMode
     void changePortValue();    // for valueButton
 
-
-    void switchValue();
+    //void switchValue();
 
 signals:
-    void modeChanged(int mode);
-    void valueChanged(int value);
+
+    //for gui to confirm changing
+    void portValueChangeConfirmed(int value);
+    void portModeChangeConfirmed(int mode);
 
 private:
     bool _service;
-
 
     QString _name;
     bool _align;

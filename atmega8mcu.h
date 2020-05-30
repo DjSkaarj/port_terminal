@@ -11,8 +11,8 @@ public:
     Atmega8MCU(QObject *parent, QString name);
 
     // GPIO methods
-    virtual void setPinValue(char portLetter, int pin,  Value value);
-    virtual void setPinMode(char portLetter, int pin, Mode mode);
+    virtual void setPinValue(pt_port* pin, Mode mode, Value value);
+    virtual void setPinMode(pt_port* pin, Mode mode);
 
 public slots:
     virtual bool connectToDevice(QString serialPortName);
@@ -22,6 +22,7 @@ protected:
     bool firstConnectFlag;
 
     virtual void sendDataToMCU(QByteArray &data);
+    virtual void responseHandler(QByteArray &data);
 
 protected slots:
     virtual void getDataFromDevice();
