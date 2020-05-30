@@ -32,8 +32,8 @@ public:
 public slots:
     void loadCfg(int);
     void about();
-    void enableInterface();
-    void disableInterface();
+    void enableTerminal();
+    void disableTerminal();
     void connectMCU();
     void disconnectMCU();
 
