@@ -5,6 +5,10 @@
 Controller::Controller(QObject *parent, QString name)
     :controllerName(name), serialPort(new QSerialPort(this)) {}
 
+bool Controller::isConnecedToPort() {
+    return serialPort->isOpen();
+}
+
 void Controller::pushTask(Type type, pt_port* &pin, Mode mode, Value value) {
     Task *task = new Task();
     task->port = pin;
@@ -31,6 +35,7 @@ void Controller::terminateTask(Task *task){
         break;
     default: conlog->error("Error terminate task");
     }
+    delete task;
 }
 
 void Controller::redoTask(Task *task){

@@ -15,14 +15,16 @@ public:
     virtual void setPinMode(pt_port* pin, Mode mode);
 
 public slots:
-    virtual bool connectToDevice(QString serialPortName);
+    virtual bool connectToDevice(const QString &serialPortName);
     virtual bool disconnect();
 
 protected:
     bool firstConnectFlag;
 
     virtual void sendDataToMCU(QByteArray &data);
-    virtual void responseHandler(QByteArray &data);
+    virtual void responseHandler(QByteArray &response);
+    virtual void errorResponseHandler(QByteArray &response);
+
 
 protected slots:
     virtual void getDataFromDevice();

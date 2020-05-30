@@ -6,7 +6,7 @@
 Atmega8MCU::Atmega8MCU(QObject *parent, QString name)
     : Controller(parent, name), firstConnectFlag(true) {}
 
-bool Atmega8MCU::connectToDevice(QString serialPortName) {
+bool Atmega8MCU::connectToDevice(const QString &serialPortName) {
     serialPort->setPortName(serialPortName);
     serialPort->setBaudRate(QSerialPort::Baud9600);
     serialPort->setDataBits(QSerialPort::Data8);
@@ -36,7 +36,6 @@ bool Atmega8MCU::disconnect(){
 
         emit Controller::controllerDisconnected();
     }
-
     return 0;
 }
 
@@ -90,19 +89,32 @@ void Atmega8MCU::getDataFromDevice(){
 }
 //-----------------------------------------------------------------------------------
 
-void Atmega8MCU::responseHandler(QByteArray &data){
-   Task *task = taskQueue.dequeue();
-   switch (data[0]) {
+void Atmega8MCU::responseHandler(QByteArray &response){
+   switch (response[0]) {
        case ACK:
-            terminateTask(task);
-            delete task;
+            terminateTask(taskQueue.dequeue());
        break;
-
        case ERROR:
-            redoTask(task);
+            errorResponseHandler(response);
+       break;
+       case LOG_INFO:
+            conlog->info("MCU:"+response.right(response.size()-1));
        break;
        default:
-           conlog->error("Wrong response from MCU:"+data);
+           conlog->error("Undefined response from MCU:"+response);
    }
 }
 
+void Atmega8MCU::errorResponseHandler(QByteArray &response){
+    switch(response[1]) {
+        case TASK:
+            if(!taskQueue.isEmpty()) {
+                redoTask(taskQueue.dequeue());
+            }
+            else
+                conlog->error("MCU task response for no existing task:" + response.right(response.size()-1));
+        break;
+        default:
+            conlog->error("MCU error task response:" + response.right(response.size()-1));
+    }
+}

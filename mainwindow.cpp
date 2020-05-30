@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSerialPortInfo>
+#include "atmega8mcu.h"
 
 #define NUM_MODES 2
 QString port_modes[NUM_MODES] = {
@@ -24,9 +25,16 @@ MainWindow::MainWindow(QWidget* parent)
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 
+    mcu = new Atmega8MCU(this, "Atmega");
+
     /* расскоментируй когда сделаешь подгрузку mcu */
-    //connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableInterface()));
-    //connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableInterface()));
+    connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableInterface()));
+    connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableInterface()));
+
+    connect(ui->connectMCU, SIGNAL(clicked()), this, SLOT(connectMCU()));
+    connect(ui->disconnectMCU, SIGNAL(clicked()), this, SLOT(disconnectMCU()));
+
+    //connect(ui)
 
     ui->Left_ports->setAlignment(Qt::AlignRight);
     ui->Right_ports->setAlignment(Qt::AlignLeft);
@@ -133,6 +141,17 @@ void MainWindow::loadCfgFiles(const QString &directory)
     }
 
     emit cfgChanged(&config_list);
+}
+
+void MainWindow::connectMCU() {
+    if(!mcu->isConnecedToPort() && (ui->serialPortInfoListBox->currentText() != "none")) {
+        mcu->connectToDevice(ui->serialPortInfoListBox->currentText());
+    }
+}
+
+void MainWindow::disconnectMSU(){
+    if(mcu->isConnecedToPort())
+        mcu->disconnect();
 }
 
 void MainWindow::clearPorts()

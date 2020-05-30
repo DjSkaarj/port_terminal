@@ -12,8 +12,9 @@ class Controller : public QObject
 public:
     explicit Controller(QObject *parent = nullptr, QString name = "Atmega");
 
-    virtual bool connectToDevice() = 0;
+    virtual bool connectToDevice(const QString &serialPortName) = 0;
     virtual bool disconnect() = 0;
+    bool isConnecedToPort();
 
     //possible modes and values of pins
     enum Value {LOW = 0, HIGH = 1};
@@ -21,7 +22,7 @@ public:
     enum Type {SET_VALUE = 0, SET_MODE = 1};
 
     //GPIO methods
-    virtual void setPinValue(class pt_port* pin, Mode mode, Value value) = 0; //Mode mode, Value value, char portLetter, int pin
+    virtual void setPinValue(class pt_port* pin, Mode mode, Value value) = 0;
     virtual void setPinMode(class pt_port* pin, Mode mode) = 0;
 
 protected:
@@ -42,7 +43,8 @@ protected:
     virtual void terminateTask(Task *task);
 
     virtual void sendDataToMCU(QByteArray &data) = 0;
-    virtual void responseHandler(QByteArray &data) = 0;
+    virtual void responseHandler(QByteArray &response) = 0;
+    virtual void errorResponseHandler(QByteArray &response) = 0;
 
 signals:
     void controllerConnected();

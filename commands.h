@@ -9,6 +9,7 @@
 #define ERROR 'E' 
 #define BEGIN 'b'
 #define END_MESSAGE '\n'
+#define TASK 'T'
 
 //#define SETTINGS 'S'
 #define SET 'S'
@@ -20,7 +21,9 @@
 #define HIGH_STATE '\xf0'
 #define LOW_STATE '\x0f'
 
-#define OUTPUT 'O'
-#define INPUT 'i'
+#define OUTPUT_MODE 'O'
+#define INPUT_MODE 'i'
+
+#define LOG_INFO 'L'
 
 #endif /* COMMANDS_H_ */

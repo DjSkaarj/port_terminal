@@ -34,6 +34,8 @@ public slots:
     void about();
     void enableInterface();
     void disableInterface();
+    void connectMCU();
+    void disconnectMSU();
 
 signals:
     void cfgChanged(const std::vector<std::pair<QString, QString>>*);
