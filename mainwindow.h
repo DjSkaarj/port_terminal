@@ -9,6 +9,7 @@
 #include <utility>
 #include "logger.h"
 #include "config.h"
+#include "controller.h"
 
 extern logger* conlog;
 
@@ -16,6 +17,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+// MainWindow ----------------------------------------------------------
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -36,9 +38,12 @@ private:
     Ui::MainWindow *ui;
     config *_cfg;
     std::vector<std::pair<QString, QString>> config_list;
+    Controller *mcu;
 
     void clearPorts();
 };
+
+//--------------------------------------------------------------------------
 
 class ioMode: public QComboBox
 {
@@ -55,6 +60,8 @@ private:
     pt_port* _port;
 };
 
+//-----------------------------------------------------------------------------
+
 class cfgBox: public QComboBox
 {
     Q_OBJECT
@@ -66,6 +73,8 @@ public:
 public slots:
     void updateList(const std::vector<std::pair<QString, QString>>*);
 };
+
+//------------------------------------------------------------------------------
 
 class valueButton: public QPushButton
 {

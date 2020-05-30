@@ -5,6 +5,7 @@
 #include <QString>
 #include <vector>
 #include "logger.h"
+#include "controller.h"
 
 extern logger* conlog;
 
@@ -13,7 +14,7 @@ class pt_port : public QObject
     Q_OBJECT
 
 public:
-    pt_port() : _service(0), _value(0), _mode(0) {}
+    pt_port(class Controller *mcu) : _service(0), _value(0), _mode(0), _mcu(mcu) {}
     ~pt_port() {}
 
     QString name() const;
@@ -32,8 +33,15 @@ public:
     void setService(bool service);
 
 public slots:
+
+    // ?
     void setMode(int mode);
-    void setValue(int value);
+    void setValue(int value);    //????
+    //
+
+    void changePortMode(int mode); // for ioMode
+    void changePortValue();    // for valueButton
+
 
     void switchValue();
 
@@ -44,11 +52,13 @@ signals:
 private:
     bool _service;
 
+
     QString _name;
     bool _align;
     int _num;
     int _value;
     int _mode;
+    Controller *_mcu;
 };
 
 #endif // PORTS_H

@@ -7,6 +7,7 @@
 #include <vector>
 #include "ports.h"
 #include "logger.h"
+#include "controller.h"
 
 extern logger* conlog;
 
@@ -16,7 +17,7 @@ class config : public QObject
 public:
     config() {}
     ~config() {}
-    bool load(const QString &path);
+    bool load(const QString &path, Controller *mcu);
 
     QString name() const;
     void setName(const QString &name);

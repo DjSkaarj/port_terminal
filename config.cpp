@@ -1,6 +1,6 @@
 #include "config.h"
 
-bool config::load(const QString &path)
+bool config::load(const QString &path, Controller *mcu)
 {
     bool align = 0;
 
@@ -26,7 +26,7 @@ bool config::load(const QString &path)
             align = 1;
         else if(cmd == "p" || cmd == "r")
         {
-            pt_port *buff = new pt_port();
+            pt_port *buff = new pt_port(mcu);
             QString bname;
             int bnum;
 

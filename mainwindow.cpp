@@ -9,7 +9,8 @@ QString port_modes[NUM_MODES] = {
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow),
+      mcu(nullptr)
 {
     ui->setupUi(this);
     conlog->setMsgbox(ui->console);
@@ -32,7 +33,7 @@ void MainWindow::loadCfg(int num_config)
         return;
 
     config *buff = new config;
-    if(buff->load(config_list[num_config - 1].first))
+    if(buff->load(config_list[num_config - 1].first, mcu))
     {
         conlog->error("Failed to load configuration.");
         return;
@@ -136,6 +137,7 @@ pt_port *ioMode::port() const
     return _port;
 }
 
+// changing the mode of the port
 void ioMode::setPort(pt_port *port)
 {
     if(_port != port)
