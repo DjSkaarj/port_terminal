@@ -27,17 +27,16 @@ MainWindow::MainWindow(QWidget* parent)
 
     mcu = new Atmega8MCU(this, "Atmega");
 
-    /* расскоментируй когда сделаешь подгрузку mcu */
-    connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableInterface()));
-    connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableInterface()));
+    connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableTerminal()));
+    connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableTerminal()));
 
     connect(ui->connectMCU, SIGNAL(clicked()), this, SLOT(connectMCU()));
     connect(ui->disconnectMCU, SIGNAL(clicked()), this, SLOT(disconnectMCU()));
 
-    //connect(ui)
-
     ui->Left_ports->setAlignment(Qt::AlignRight);
     ui->Right_ports->setAlignment(Qt::AlignLeft);
+
+    ui->disconnectMCU->setEnabled(false);
     ui->container_widget->setEnabled(false);
 
     fillPortsInfo();
@@ -101,14 +100,22 @@ void MainWindow::about()
                        "<b>Port Terminal v." + PT_VERSION + "</b><br>Powered by Qt " + QT_VERSION_STR + "<br>© Demichev S., Gerasimenko E.");
 }
 
-void MainWindow::enableInterface()
+void MainWindow::enableTerminal()
 {
     ui->container_widget->setEnabled(true);
+    ui->disconnectMCU->setEnabled(true);
+    ui->serialPortInfoListBox->setEnabled(false);
+    ui->cfgComboBox->setEnabled(false);
+    ui->connectMCU->setEnabled(false);
 }
 
-void MainWindow::disableInterface()
+void MainWindow::disableTerminal()
 {
     ui->container_widget->setEnabled(false);
+    ui->connectMCU->setEnabled(true);
+    ui->serialPortInfoListBox->setEnabled(true);
+    ui->cfgComboBox->setEnabled(true);
+    ui->disconnectMCU->setEnabled(false);
 }
 
 void MainWindow::loadCfgFiles(const QString &directory)
@@ -149,7 +156,7 @@ void MainWindow::connectMCU() {
     }
 }
 
-void MainWindow::disconnectMSU(){
+void MainWindow::disconnectMCU(){
     if(mcu->isConnecedToPort())
         mcu->disconnect();
 }
@@ -175,8 +182,10 @@ void MainWindow::clearPorts()
 
 }
 
-void MainWindow::fillPortsInfo(){
+void MainWindow::fillPortsInfo()
+{
     ui->serialPortInfoListBox->clear();
+    ui->serialPortInfoListBox->addItem("<none>");
     QString description;
     QString manufacturer;
     QString serialNumber;
@@ -193,7 +202,6 @@ void MainWindow::fillPortsInfo(){
 
         ui->serialPortInfoListBox->addItem(list.first(), list);
     }
-    ui->serialPortInfoListBox->addItem(tr("none"));
 }
 
 //------------------------------------------------------------------------------------------------
