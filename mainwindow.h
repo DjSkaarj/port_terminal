@@ -41,6 +41,8 @@ private:
     Controller *mcu;
 
     void clearPorts();
+
+    void fillPortsInfo();
 };
 
 //--------------------------------------------------------------------------

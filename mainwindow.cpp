@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QSerialPortInfo>
 
 #define NUM_MODES 2
 QString port_modes[NUM_MODES] = {
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
+
+    fillPortsInfo();
 }
 
 MainWindow::~MainWindow()
@@ -124,6 +127,29 @@ void MainWindow::clearPorts()
     }
 
 }
+
+void MainWindow::fillPortsInfo(){
+    ui->serialPortInfoListBox->clear();
+    QString description;
+    QString manufacturer;
+    QString serialNumber;
+    const auto portList = QSerialPortInfo::availablePorts();
+    for (const QSerialPortInfo &portInfo : portList) {
+        QStringList list;
+        list << portInfo.portName()
+             << (!description.isEmpty() ? description : "N/A")
+             << (!manufacturer.isEmpty() ? manufacturer : "N/A")
+             << (!serialNumber.isEmpty() ? serialNumber : "N/A")
+             << portInfo.systemLocation()
+             << (portInfo.vendorIdentifier() ? QString::number(portInfo.vendorIdentifier(), 16) : "N/A")
+             << (portInfo.productIdentifier() ? QString::number(portInfo.productIdentifier(), 16) : "N/A");
+
+        ui->serialPortInfoListBox->addItem(list.first(), list);
+    }
+    ui->serialPortInfoListBox->addItem(tr("none"));
+}
+
+//------------------------------------------------------------------------------------------------
 
 ioMode::ioMode(QWidget* parent):
     QComboBox(parent)

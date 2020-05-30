@@ -10,7 +10,7 @@ class Controller : public QObject
 {
     Q_OBJECT
 public:
-    explicit Controller(QObject *parent = nullptr);
+    explicit Controller(QObject *parent = nullptr, QString name = "Atmega");
 
     virtual bool connectToDevice() = 0;
     virtual bool disconnect() = 0;
@@ -27,7 +27,7 @@ protected:
     QString controllerName;
     QSerialPort *serialPort;
     struct Task {
-        //pt_port *pin;
+        class pt_port *pin;
         Mode modeToSet;
         Value valueToSet;
         bool modeOrValue;  // 0-value, 1-mode
@@ -35,11 +35,12 @@ protected:
 
     QQueue<Task*> taskQueue;
 
-    virtual bool sendDataToMCU(QChar data) = 0;
+    virtual void sendDataToMCU(QByteArray &data) = 0;
+    virtual void taskHandler() = 0;
 
 
 protected slots:
-    virtual void handleDataFromDevice() = 0;
+    virtual void getDataFromDevice() = 0;
 };
 
 #endif // CONTROLLER_H
