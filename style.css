@@ -2,8 +2,6 @@ QPushButton {}
 
 QToolButton {}
 
-QComboBox {}
-
 valueButton {
     max-width: 30px;
 }
@@ -20,11 +18,11 @@ valueButton {
 }
 
 #container_widget {
-	min-height: 300px;
+        min-height: 300px;
 }
 
 #console {
-    margin-top: 15px;
+    margin-top: 5px;
     background-color: black;
     color: white;
     font-size: 15px;

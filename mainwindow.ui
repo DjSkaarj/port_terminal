@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -44,10 +44,10 @@
     <item>
      <layout class="QHBoxLayout" name="Top">
       <property name="topMargin">
-       <number>20</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>20</number>
+       <number>0</number>
       </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -82,9 +82,21 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton">
+         <widget class="QToolButton" name="ports_refresh">
+          <property name="styleSheet">
+           <string notr="true">margin-top:-1px</string>
+          </property>
           <property name="text">
-           <string>...</string>
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset theme=":/img/refresh_icon.png"/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
           </property>
          </widget>
         </item>
@@ -121,8 +133,17 @@
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="topMargin">
+           <number>1</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QPushButton" name="connectMCU">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
              <string>Connect</string>
             </property>
@@ -150,6 +171,9 @@
        </size>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="topMargin">
+        <number>15</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="Center">
          <item>
@@ -177,7 +201,14 @@
      </widget>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="console"/>
+     <widget class="QPlainTextEdit" name="console">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

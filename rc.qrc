@@ -3,5 +3,7 @@
         <file>style.css</file>
         <file>ports/atmega328.cfg</file>
         <file>ports/testconfig.cfg</file>
+        <file>img/refresh_icon.png</file>
+        <file>img/icon.ico</file>
     </qresource>
 </RCC>

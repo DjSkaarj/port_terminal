@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget* parent)
     connect(ui->actionExit, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(ui->actionAbout_Qt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
+    connect(ui->ports_refresh, SIGNAL(clicked()), this, SLOT(fillPortsInfo()));
+
     connect(this, SIGNAL(cfgChanged(const std::vector<std::pair<QString, QString>>*)), ui->cfgComboBox, SLOT(updateList(const std::vector<std::pair<QString, QString>>*)));
     connect(ui->cfgComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(loadCfg(int)));
 
@@ -32,7 +34,6 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(mcu, SIGNAL(controllerConnected()), this, SLOT(enableTerminal()));
     connect(mcu, SIGNAL(controllerDisconnected()), this, SLOT(disableTerminal()));
-
     connect(ui->connectMCU, SIGNAL(clicked()), this, SLOT(connectMCU()));
     connect(ui->disconnectMCU, SIGNAL(clicked()), this, SLOT(disconnectMCU()));
 
@@ -110,6 +111,7 @@ void MainWindow::enableTerminal()
     ui->serialPortInfoListBox->setEnabled(false);
     ui->cfgComboBox->setEnabled(false);
     ui->connectMCU->setEnabled(false);
+    ui->ports_refresh->setEnabled(false);
 }
 
 void MainWindow::disableTerminal()
@@ -118,6 +120,7 @@ void MainWindow::disableTerminal()
     ui->connectMCU->setEnabled(true);
     ui->serialPortInfoListBox->setEnabled(true);
     ui->cfgComboBox->setEnabled(true);
+    ui->ports_refresh->setEnabled(true);
     ui->disconnectMCU->setEnabled(false);
 }
 

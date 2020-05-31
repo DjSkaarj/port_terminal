@@ -36,6 +36,7 @@ public slots:
     void disableTerminal();
     void connectMCU();
     void disconnectMCU();
+    void fillPortsInfo();
 
 signals:
     void cfgChanged(const std::vector<std::pair<QString, QString>>*);
@@ -47,8 +48,6 @@ private:
     Controller *mcu;
 
     void clearPorts();
-
-    void fillPortsInfo();
 };
 
 //--------------------------------------------------------------------------
