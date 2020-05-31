@@ -54,7 +54,7 @@ void Atmega8MCU::setPinValue(pt_port* pin, Mode mode, Value newValue){
             }
             else {
                 request.append(LOW_STATE);
-                request.append(~(1 << pin->getPinNumber()));
+                request.append((1 << pin->getPinNumber()));
             }
             pushTask(Controller::SET_VALUE, pin, mode, newValue);
         break;
@@ -73,12 +73,12 @@ void Atmega8MCU::setPinMode(pt_port* pin, Mode mode){}
 //--------------------------------------------------------------------------------
 
 void Atmega8MCU::sendDataToMCU(QByteArray &data){
-    conlog->info("Send request to MCU:" + data);
+    //conlog->info("Send request to MCU:" + data);
     serialPort->write(data);
 }
 
 void Atmega8MCU::getDataFromDevice(){
-    conlog->info("getdatafromDevice");
+    //conlog->info("getdatafromDevice");
     if(!serialPort->canReadLine()) {
         conlog->error("Not enough incoming data");
         return;
@@ -86,7 +86,7 @@ void Atmega8MCU::getDataFromDevice(){
 
     QByteArray response = serialPort->readLine();
     responseHandler(response);
-    conlog->info("Response"+response);
+    //conlog->info("Response"+response);
 
 }
 //-----------------------------------------------------------------------------------
