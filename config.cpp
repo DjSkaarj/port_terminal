@@ -58,3 +58,12 @@ void config::setName(const QString &name)
 {
     _name = name;
 }
+
+pt_port* config::port(const QString &name)
+{
+    for(auto &p : ports)
+    {
+        if(p->name() == name)
+            return p;
+    }
+}

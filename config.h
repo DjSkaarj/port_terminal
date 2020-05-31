@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <vector>
+#include <algorithm>
 #include "ports.h"
 #include "logger.h"
 #include "controller.h"
@@ -21,6 +22,7 @@ public:
 
     QString name() const;
     void setName(const QString &name);
+    pt_port* port(const QString &name);
 
     std::vector<pt_port*> ports;
 

@@ -157,7 +157,7 @@ void MainWindow::loadCfgDirectory(const QString &directory)
 }
 
 void MainWindow::connectMCU() {
-    if(!mcu->isConnecedToPort() && (ui->serialPortInfoListBox->currentText() != "none")) {
+    if(!mcu->isConnecedToPort() && (ui->serialPortInfoListBox->currentText() != "<none>")) {
         mcu->connectToDevice(ui->serialPortInfoListBox->currentText());
     }
 }
